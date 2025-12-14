@@ -32,8 +32,17 @@ async function getDictionaryEntry(slug: string): Promise<DictionaryEntry | null>
         // But going through the internal API endpoint is fine for now if localhost:3001 is up.
         // We use the absolute URL because this runs on the server.
         // Use environment variable or fallback to production URL for SSR
-        const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://chatjlptbackend-production.up.railway.app';
-        const res = await fetch(`${API_BASE_URL}/api/dictionary/slug/${slug}`, {
+        let API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://chatjlptbackend-production.up.railway.app';
+
+        // Ensure protocol exists
+        if (!API_BASE_URL.startsWith('http')) {
+            API_BASE_URL = `https://${API_BASE_URL}`;
+        }
+
+        const fetchUrl = `${API_BASE_URL}/api/dictionary/slug/${slug}`;
+        console.log(`[Dictionary SSR] Fetching: ${fetchUrl}`);
+
+        const res = await fetch(fetchUrl, {
             cache: 'no-store', // Always fetch fresh data for now
         });
 
