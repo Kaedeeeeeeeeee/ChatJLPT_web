@@ -58,17 +58,7 @@ export default function SearchAutocomplete() {
         return () => clearTimeout(timer);
     }, [query]);
 
-    const handleKeyDown = (e: React.KeyboardEvent) => {
-        if (e.key === 'Enter') {
-            // If query is valid, go to search page or first result? 
-            // For now, let's just do nothing or maybe just assume they want to search "taberu" directly?
-            // Actually, if they hit enter, we usually want to go to the first result OR a search results page.
-            // Let's go to the first result if available, otherwise just do nothing for now (or maybe I should keep the Search Button separately?)
-            if (results.length > 0) {
-                router.push(`/dictionary/${results[0].slug}`);
-            }
-        }
-    }
+
 
     return (
         <div ref={wrapperRef} className="relative w-full">
@@ -78,15 +68,31 @@ export default function SearchAutocomplete() {
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
                     onFocus={() => query && setIsOpen(true)}
-                    onKeyDown={handleKeyDown}
-                    placeholder="Search (e.g., sensei, 経済, N1...)"
+                    onKeyDown={(e) => {
+                        if (e.key === 'Enter' && results.length > 0) {
+                            const word = results[0];
+                            const history = JSON.parse(localStorage.getItem('dictionary_search_history') || '[]');
+                            const newHistory = [word, ...history.filter((h: SearchResult) => h.id !== word.id)].slice(0, 5);
+                            localStorage.setItem('dictionary_search_history', JSON.stringify(newHistory));
+                            window.dispatchEvent(new Event('storage'));
+                            router.push(`/dictionary/${word.slug}`);
+                        }
+                    }}
+                    placeholder="Search"
                     className="w-full px-6 py-4 rounded-full border border-gray-300 shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-lg outline-none transition-all text-black bg-white"
                 />
                 <button
                     className="absolute right-2 top-2 bottom-2 px-6 bg-jlpt-blue text-white rounded-full font-medium hover:opacity-90 transition-opacity"
                     onClick={() => {
                         // Manual search trigger
-                        if (results.length > 0) router.push(`/dictionary/${results[0].slug}`);
+                        if (results.length > 0) {
+                            const word = results[0];
+                            const history = JSON.parse(localStorage.getItem('dictionary_search_history') || '[]');
+                            const newHistory = [word, ...history.filter((h: SearchResult) => h.id !== word.id)].slice(0, 5);
+                            localStorage.setItem('dictionary_search_history', JSON.stringify(newHistory));
+                            window.dispatchEvent(new Event('storage'));
+                            router.push(`/dictionary/${word.slug}`);
+                        }
                     }}
                 >
                     Search
@@ -101,7 +107,14 @@ export default function SearchAutocomplete() {
                             key={word.id}
                             href={`/dictionary/${word.slug}`}
                             className="block px-6 py-4 hover:bg-blue-50 transition-colors border-b border-gray-50 last:border-0"
-                            onClick={() => setIsOpen(false)}
+                            onClick={() => {
+                                setIsOpen(false);
+                                const history = JSON.parse(localStorage.getItem('dictionary_search_history') || '[]');
+                                const newHistory = [word, ...history.filter((h: SearchResult) => h.id !== word.id)].slice(0, 5);
+                                localStorage.setItem('dictionary_search_history', JSON.stringify(newHistory));
+                                // Dispatch event to update other components
+                                window.dispatchEvent(new Event('storage'));
+                            }}
                         >
                             <div className="flex justify-between items-center">
                                 <div className="flex items-baseline gap-3">

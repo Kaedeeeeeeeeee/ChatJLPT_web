@@ -1,6 +1,55 @@
 'use client';
 
+import { useState, useEffect } from 'react';
+import Link from 'next/link';
 import SearchAutocomplete from '@/components/SearchAutocomplete';
+
+function RecentSearches() {
+  const [history, setHistory] = useState<any[]>([]);
+
+  useEffect(() => {
+    // Load initial
+    const loadHistory = () => {
+      try {
+        const stored = localStorage.getItem('dictionary_search_history');
+        if (stored) {
+          setHistory(JSON.parse(stored));
+        }
+      } catch (e) {
+        console.error('Failed to load history', e);
+      }
+    };
+
+    loadHistory();
+
+    // Listen for updates
+    const handleStorageChange = () => {
+      loadHistory();
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    return () => window.removeEventListener('storage', handleStorageChange);
+  }, []);
+
+  if (history.length === 0) return null;
+
+  return (
+    <div className="text-center animate-fade-in">
+      <p className="text-sm text-gray-400 mb-4">Recent Searches</p>
+      <div className="flex justify-center gap-3 flex-wrap">
+        {history.map((word) => (
+          <Link
+            key={word.id}
+            href={`/dictionary/${word.slug}`}
+            className="px-4 py-2 bg-white border border-gray-200 rounded-lg text-sm text-gray-600 hover:border-blue-400 hover:text-blue-600 transition-colors"
+          >
+            {word.kanji} ({word.romaji})
+          </Link>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 export default function Home() {
   return (
@@ -18,20 +67,9 @@ export default function Home() {
           <SearchAutocomplete />
         </div>
 
-        {/* Quick Links / Popular Words (Optional Placeholder) */}
-        <div className="text-center">
-          <p className="text-sm text-gray-400 mb-4">Popular Searches</p>
-          <div className="flex justify-center gap-3 flex-wrap">
-            <a href="/dictionary/sensei" className="px-4 py-2 bg-white border border-gray-200 rounded-lg text-sm text-gray-600 hover:border-blue-400 hover:text-blue-600 transition-colors">
-              先生 (sensei)
-            </a>
-            <a href="/dictionary/ame" className="px-4 py-2 bg-white border border-gray-200 rounded-lg text-sm text-gray-600 hover:border-blue-400 hover:text-blue-600 transition-colors">
-              雨 (ame)
-            </a>
-            <a href="/dictionary/ni-saishite" className="px-4 py-2 bg-white border border-gray-200 rounded-lg text-sm text-gray-600 hover:border-blue-400 hover:text-blue-600 transition-colors">
-              に際して (N1)
-            </a>
-          </div>
+        {/* Recent Searches */}
+        <div className="text-center w-full">
+          <RecentSearches />
         </div>
       </div>
     </div>
