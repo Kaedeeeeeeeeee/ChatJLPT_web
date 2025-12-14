@@ -86,7 +86,7 @@ export default async function DictionaryEntryPage({ params }: { params: { slug: 
             {/* Navigation */}
             <nav className="border-b border-gray-100 py-4 px-6">
                 <div className="max-w-4xl mx-auto flex items-center gap-4 text-sm text-gray-500">
-                    <Link href="/" className="hover:text-blue-600 transition-colors">Dictionary Home</Link>
+                    <Link href="/dictionary" className="hover:text-blue-600 transition-colors">Dictionary Home</Link>
                     <span>/</span>
                     <span className="text-gray-900 font-medium">{entry.kanji}</span>
                 </div>
