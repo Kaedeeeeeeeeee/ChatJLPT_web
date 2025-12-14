@@ -4,7 +4,10 @@ const nextConfig: NextConfig = {
   /* config options here */
   reactCompiler: true,
   async rewrites() {
-    const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://chatjlptbackend-production.up.railway.app';
+    let API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://chatjlptbackend-production.up.railway.app';
+    if (!API_URL.startsWith('http')) {
+      API_URL = `https://${API_URL}`;
+    }
     return [
       {
         source: '/api/:path*',
