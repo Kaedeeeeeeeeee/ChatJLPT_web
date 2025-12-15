@@ -38,7 +38,7 @@ export default function DictionaryExampleGenerator({
             // Use environment variable or default to production/local
             const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://chatjlptbackend-production.up.railway.app';
 
-            const response = await fetch(`${API_BASE_URL}/api/dictionary/generate-example`, {
+            const response = await fetch(`${API_BASE_URL}/api/dictionary/create-example`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
