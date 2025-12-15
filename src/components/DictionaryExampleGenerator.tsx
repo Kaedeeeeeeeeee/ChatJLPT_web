@@ -56,14 +56,14 @@ export default function DictionaryExampleGenerator({
             });
 
             if (!response.ok) {
-                throw new Error('Failed to generate example');
+                throw new Error('Failed to load example');
             }
 
             const newExample = await response.json();
             setExamples(prev => [...prev, newExample]);
         } catch (err) {
             console.error(err);
-            setError('Failed to generate example. Please try again.');
+            setError('Failed to load example. Please try again.');
         } finally {
             setIsLoading(false);
         }
@@ -110,7 +110,7 @@ export default function DictionaryExampleGenerator({
                         {isLoading ? (
                             <>
                                 <span className="w-4 h-4 border-2 border-gray-400 border-t-transparent rounded-full animate-spin"></span>
-                                Generating...
+                                Loading...
                             </>
                         ) : (
                             <>
