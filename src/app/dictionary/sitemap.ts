@@ -6,12 +6,12 @@ interface DictionaryEntry {
     updatedAt: string;
 }
 
-const BASE_URL = 'https://chatjlpt.com'; // Or process.env.NEXT_PUBLIC_BASE_URL
+const BASE_URL = 'https://www.chatjlpt.jp'; // Or process.env.NEXT_PUBLIC_BASE_URL
 // For now we map to the deployment URL. 
 // If we are deploying /web as a subdomain, this should be 'https://dictionary.chatjlpt.com'
 // If we are doing rewrites: 'https://chatjlpt.com/dictionary'
 // User said: "chatjlpt.com/dictionary"
-const DICTIONARY_BASE_URL = 'https://chatjlpt.com/dictionary';
+const DICTIONARY_BASE_URL = 'https://www.chatjlpt.jp/dictionary';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // Fetch all dictionary slugs from the backend
