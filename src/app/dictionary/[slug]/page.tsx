@@ -179,7 +179,7 @@ export default async function DictionaryEntryPage({ params }: { params: { slug: 
                 <div className="mt-20 p-8 bg-gradient-to-r from-blue-600 to-indigo-700 rounded-2xl text-white text-center shadow-xl">
                     <h3 className="text-2xl font-bold mb-2">Master {entry.kanji} and passing JLPT?</h3>
                     <p className="text-blue-100 mb-6">ChatJLPT helps you learn Japanese naturally with AI.</p>
-                    <a href="https://chatjlpt.com/signup" className="inline-block px-8 py-3 bg-white text-blue-600 font-bold rounded-full hover:bg-gray-100 transition-colors">
+                    <a href="/auth?mode=signup" className="inline-block px-8 py-3 bg-white text-blue-600 font-bold rounded-full hover:bg-gray-100 transition-colors">
                         Start Learning for Free
                     </a>
                 </div>
