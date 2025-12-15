@@ -2,6 +2,7 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import KanjiWriter from '@/components/KanjiWriter';
+import DictionaryExampleGenerator from '@/components/DictionaryExampleGenerator';
 
 // Define types (Should ideally be shared, but defining here for MVP)
 interface DictionaryEntry {
@@ -164,26 +165,12 @@ export default async function DictionaryEntryPage({ params }: { params: { slug: 
                             </div>
 
                             {/* Examples */}
-                            {sense.examples.length > 0 && (
-                                <div className="mt-6 bg-gray-50 rounded-xl p-6">
-                                    <h4 className="text-sm font-bold text-gray-400 uppercase tracking-wider mb-4">Examples</h4>
-                                    <div className="space-y-6">
-                                        {sense.examples.map((ex) => (
-                                            <div key={ex.id} className="group">
-                                                <p className="text-lg text-gray-900 font-medium mb-1">
-                                                    {ex.sentenceJa}
-                                                </p>
-                                                <p className="text-sm text-gray-500 mb-1 font-mono">
-                                                    {ex.sentenceRomaji}
-                                                </p>
-                                                <p className="text-gray-600">
-                                                    {ex.sentenceEn}
-                                                </p>
-                                            </div>
-                                        ))}
-                                    </div>
-                                </div>
-                            )}
+                            <DictionaryExampleGenerator
+                                senseId={sense.id}
+                                word={entry.kanji}
+                                definition={sense.definitions.join('; ')}
+                                initialExamples={sense.examples}
+                            />
                         </section>
                     ))}
                 </div>
