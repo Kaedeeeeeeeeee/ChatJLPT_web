@@ -33,7 +33,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         // In Vercel, backend might be deployed at a URL.
         // For now, let's hardcode localhost for local dev fallback (won't work in Vercel build unless env var is set)
         // Production robust way: check process.env.BACKEND_URL
-        const backendUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+        const backendUrl = process.env.NEXT_PUBLIC_API_URL || 'https://chatjlptbackend-production.up.railway.app';
 
         // In Next.js App Router sitemap(), fetch allows caching configuration
         const res = await fetch(`${backendUrl}/api/dictionary/sitemap-slugs`, {
