@@ -56,7 +56,9 @@ export default function Home() {
     <div className="min-h-screen bg-gray-50 flex flex-col items-center py-20 px-4">
       <div className="max-w-2xl w-full">
         <h1 className="text-4xl font-bold text-center text-gray-900 mb-2">
-          <span className="text-jlpt-blue">Chat</span>JLPT Jisho
+          <a href="/" className="hover:opacity-80 transition-opacity">
+            <span className="text-jlpt-blue">Chat</span>JLPT
+          </a> Jisho
         </h1>
         <p className="text-center text-gray-600 mb-8">
           Free AI-powered Japanese Dictionary for N5-N1
